@@ -1,7 +1,6 @@
 import requests 
 from config import *
 
-RiaNewsApi = 1
 class RiaNewsApi():
 
 	def __init__(self):
@@ -11,10 +10,8 @@ class RiaNewsApi():
 		pass
 
 	def test(self):
-		r = requests.get(self.link)
-		with open('test.html', 'w', encoding='utf-8') as file:
-			file.write(r.text)
-
+		req = requests.get(self.link)
+		
 
 class WorldWideApi():
 
