@@ -63,4 +63,6 @@ class BeInCryptoApi():
 		for state in all_states:
 			
 			title = state.find('h3').find('a').text
+			image = state.find('amp-img')['src']
 			print(title)
+			print(image)
