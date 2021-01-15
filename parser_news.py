@@ -54,4 +54,13 @@ class BeInCryptoApi():
 		pass
 
 	def test(self):
-		pass
+		req = requests.get(self.link)
+
+		soup = BeautifulSoup(req.text, "html.parser")
+
+		all_states = soup.findAll('article', {"class": "multi-news-card bb-1 d-lg-flex flex-lg-column mb-5"})
+
+		for state in all_states:
+			
+			title = state.find('h3').find('a').text
+			print(title)
