@@ -44,24 +44,11 @@ class RiaNewsApi():
 
 	def get_state_text(self, url):
 		pass
-		
 
-class WorldWideApi():
-
-	def __init__(self):
-		self.link = f'http://newsapi.org/v2/top-headlines?country=ru&apiKey={worldwide_api_key}'
-
-	def start_parse(self):
-		pass
-
-	def test(self):
-		print('test')
-		req = requests.get(self.link)
-		
-class MeduzaNewsApi():
+class BeInCryptoApi():
 
 	def __init__(self):
-		import meduza
+		 self.link = 'https://beincrypto.ru/news/'
 
 	def start_parse(self):
 		pass
