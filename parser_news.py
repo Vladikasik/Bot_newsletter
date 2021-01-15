@@ -15,9 +15,9 @@ class RiaNewsApi():
 		soup = BeautifulSoup(req.text, "html.parser")
 		result = soup.findAll('div', {"class": "list-item"})
 		for page in result:
-			a = page.findAll('div', {"class": "list-item__content"})
-			b = a[0].findAll('title')
-			print(a)
+			a = page.find('div', {"class": "list-item__content"})
+			b = a.find('a', {'class': 'list-item__title color-font-hover-only'})
+			print(b.text)
 		
 
 class WorldWideApi():
