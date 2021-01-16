@@ -1,8 +1,8 @@
 import parser_news
 
 def main():
-	ria = parser_news.RiaNewsApi()
-	ria.test()
+	bitnews = parser_news.BeInCryptoApi()
+	bitnews.test()
 	
 
-main()
+main() 

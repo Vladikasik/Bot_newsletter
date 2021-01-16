@@ -67,25 +67,65 @@ class RiaNewsApi():
 
 		
 
-class WorldWideApi():
+class BeInCryptoApi():
 
 	def __init__(self):
-		self.link = f'http://newsapi.org/v2/top-headlines?country=ru&apiKey={worldwide_api_key}'
+		 self.link = 'https://beincrypto.ru/news/'
 
 	def start_parse(self):
 		pass
 
 	def test(self):
-		print('test')
 		req = requests.get(self.link)
+
+		soup = BeautifulSoup(req.text, "html.parser")
+
+		all_states = soup.findAll('article', {"class": "multi-news-card bb-1 d-lg-flex flex-lg-column mb-5"})
+
+		for state in all_states:
+			
+			title = state.find('h3').find('a').text
+			image = state.find('amp-img')['src']
+			image = f'<img src="{image}">'
+			link = state.find('a')['href']
+			text = self.get_state_text(link)
+			self.write_state(title, image, text)
+			# print(title)
+			# print(image)
+
+	def get_state_text(self, link):
+		req = requests.get(link)
+
+		soup = BeautifulSoup(req.text, "html.parser")
+
+		state_text = ""
+
+		states = soup.find('div', {"class": "entry-content-inner"})
+
+		for p in states.findAll('p'):
+			if p.find('amp-ad') is not None or p.find('amp-img') is not None or p.find('span') is not None:
+				continue
+			state_text += str(p) + '\n'
+
+		return state_text
+
+	def write_state(self, title, image, text):
+		from telegraph import Telegraph
+
+		telegraph = Telegraph()
+
+		telegraph.create_account(short_name='1337')
+
+		# print(str(image) + '\n' + str(text))
+
+		try:
+			response = telegraph.create_page(
+		    str(title),
+		    html_content=str(image) + '\n' + str(text))
+			print('https://telegra.ph/{}'.format(response['path']))
+		except Exception as e:
+			print(str(image) + '\n' + str(text))
+			print(e)
 		
-class MeduzaNewsApi():
 
-	def __init__(self):
-		import meduza
-
-	def start_parse(self):
-		pass
-
-	def test(self):
-		pass
+		
