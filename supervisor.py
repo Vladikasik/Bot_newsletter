@@ -5,4 +5,4 @@ def main():
 	bitnews.test()
 	
 
-main()
+main() 

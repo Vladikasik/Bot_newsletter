@@ -64,5 +64,46 @@ class BeInCryptoApi():
 			
 			title = state.find('h3').find('a').text
 			image = state.find('amp-img')['src']
-			print(title)
-			print(image)
+			image = f'<img src="{image}">'
+			link = state.find('a')['href']
+			text = self.get_state_text(link)
+			self.write_state(title, image, text)
+			# print(title)
+			# print(image)
+
+	def get_state_text(self, link):
+		req = requests.get(link)
+
+		soup = BeautifulSoup(req.text, "html.parser")
+
+		state_text = ""
+
+		states = soup.find('div', {"class": "entry-content-inner"})
+
+		for p in states.findAll('p'):
+			if p.find('amp-ad') is not None or p.find('amp-img') is not None or p.find('span') is not None:
+				continue
+			state_text += str(p) + '\n'
+
+		return state_text
+
+	def write_state(self, title, image, text):
+		from telegraph import Telegraph
+
+		telegraph = Telegraph()
+
+		telegraph.create_account(short_name='1337')
+
+		# print(str(image) + '\n' + str(text))
+
+		try:
+			response = telegraph.create_page(
+		    str(title),
+		    html_content=str(image) + '\n' + str(text))
+			print('https://telegra.ph/{}'.format(response['path']))
+		except Exception as e:
+			print(str(image) + '\n' + str(text))
+			print(e)
+		
+
+		
